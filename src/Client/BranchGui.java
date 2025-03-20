@@ -30,6 +30,8 @@ public class BranchGui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         productTypeBox = new javax.swing.JComboBox<>();
         productTextField = new javax.swing.JTextField();
@@ -39,6 +41,14 @@ public class BranchGui extends javax.swing.JFrame {
         viewButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         logTextArea = new javax.swing.JTextArea();
+        connectButton = new javax.swing.JButton();
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jList1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,14 +61,14 @@ public class BranchGui extends javax.swing.JFrame {
             }
         });
 
-        productTextField.setText("productTextField");
+        productTextField.setText("ProductName");
         productTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 productTextFieldActionPerformed(evt);
             }
         });
 
-        qtyTextField.setText("qtyTextField");
+        qtyTextField.setText("Quantity");
 
         addButton.setText("addButton");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -74,7 +84,7 @@ public class BranchGui extends javax.swing.JFrame {
             }
         });
 
-        viewButton.setText("viewAndConnectButton");
+        viewButton.setText("viewButton");
         viewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewButtonActionPerformed(evt);
@@ -85,6 +95,13 @@ public class BranchGui extends javax.swing.JFrame {
         logTextArea.setRows(5);
         jScrollPane1.setViewportView(logTextArea);
 
+        connectButton.setText("connectButton");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,26 +109,30 @@ public class BranchGui extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addComponent(addButton)
+                        .addGap(59, 59, 59)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(connectButton)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(qtyTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(deleteButton, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(productTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(6, 6, 6)
+                                    .addComponent(viewButton))
+                                .addComponent(productTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(productTypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(addButton)
-                                .addGap(59, 59, 59)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(qtyTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(deleteButton, javax.swing.GroupLayout.Alignment.TRAILING)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(viewButton)))
-                .addContainerGap(73, Short.MAX_VALUE))
+                        .addComponent(productTypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 25, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,14 +146,16 @@ public class BranchGui extends javax.swing.JFrame {
                     .addComponent(productTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(qtyTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(viewButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(viewButton)
+                    .addComponent(connectButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deleteButton)
                     .addComponent(addButton))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,19 +177,18 @@ public class BranchGui extends javax.swing.JFrame {
 
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         // TODO add your handling code here:
-        viewStorage();
+        sendRequest("VIEW");
     }//GEN-LAST:event_viewButtonActionPerformed
 
     private void productTypeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productTypeBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_productTypeBoxActionPerformed
 
-    private void viewStorage(){
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
+        // TODO add your handling code here:
         requestAccess();
-        if(assignedServerPort != -1){
-            sendRequest("VIEW");
-        }
-    }
+    }//GEN-LAST:event_connectButtonActionPerformed
+
     
     private void requestAccess(){
         try{
@@ -178,7 +200,7 @@ public class BranchGui extends javax.swing.JFrame {
             String response = input.readLine();
             logMessage("Coordinator: " + response);
             
-            if(response.startsWith("Access Granted")){
+            if(response.equals("Granted")){
                 assignedServerPort = productTypeBox.getSelectedItem().equals("Shirts") ? 6000 : 6001;
                 output.writeInt(assignedServerPort);
                 logMessage("Branch: Connected to Server " + assignedServerPort);
@@ -198,8 +220,7 @@ public class BranchGui extends javax.swing.JFrame {
         }
         String productName = productTextField.getText().trim();
         String quantityText = qtyTextField.getText().trim();
-        
-        if(action.equals("ADD")){
+
             if(productName.isEmpty() || quantityText.isEmpty()){
                 logMessage("Error: Enter a valid product name and quantity.");
                 return;
@@ -209,7 +230,7 @@ public class BranchGui extends javax.swing.JFrame {
                 return;
             }
             
-            String command;
+            String command = null;
             switch (action) {
                 case "ADD":
                     command = "ADD " + productName + " " + quantityText;
@@ -217,19 +238,22 @@ public class BranchGui extends javax.swing.JFrame {
                 case "DELETE":
                     command = "DELETE " + productName;
                     break;
-                default:
+                case "VIEW":
                     command = "VIEW";
+                    break;
+                default:
+                    logMessage("invalid action");
                     break;
             }
             
             try{
                 Socket socket = new Socket("localhost", assignedServerPort);
                 BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+                PrintWriter output = new PrintWriter(socket.getOutputStream(),true);
                 
                 logMessage("Connecting to Storage Server (" + assignedServerPort + ")");
                 input.readLine();
-                output.writeUTF(command);
+                output.println(command);
                 
                 String response = input.readLine();
                 logMessage("Server: " + response);
@@ -237,7 +261,6 @@ public class BranchGui extends javax.swing.JFrame {
             }catch(IOException e){
                 logMessage("Error communicating with Storage Server.");
             }
-        }
     }
     
     public void logMessage(String message) {
@@ -282,9 +305,12 @@ public class BranchGui extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JButton connectButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea logTextArea;
     private javax.swing.JTextField productTextField;
     private javax.swing.JComboBox<String> productTypeBox;

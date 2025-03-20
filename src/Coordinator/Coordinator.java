@@ -53,7 +53,7 @@ public class Coordinator {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(store.getInputStream()));
              PrintWriter out = new PrintWriter(store.getOutputStream(), true)) {
 
-            out.println("Access granted.");
+            out.println("Granted");
             
             String received = in.readLine();
             if (received == null) {
