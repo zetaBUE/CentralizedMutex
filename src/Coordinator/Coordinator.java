@@ -17,7 +17,7 @@ public class Coordinator {
     private static final int PORT = 5000;
     private Queue<Socket> requestQueue = new LinkedList<>();
     private boolean resourceLocked = false;
-    private static final int[] RESOURCE_PORTS = {6000, 6001}; // Shirts → 6000, Pants → 6001
+    private static final int[] RESOURCE_PORTS = { 6000, 6001 }; // Shirts → 6000, Pants → 6001
 
     public static void main(String[] args) {
         new Coordinator().startServer();
@@ -51,39 +51,77 @@ public class Coordinator {
 
     private void handleStore(Socket store) {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(store.getInputStream()));
-             PrintWriter out = new PrintWriter(store.getOutputStream(), true)) {
+                DataInputStream dataIn = new DataInputStream(store.getInputStream());
+                PrintWriter out = new PrintWriter(store.getOutputStream(), true)) {
 
-            out.println("Granted");
-            
-            String received = in.readLine();
-            if (received == null) {
-                System.out.println("Client disconnected before choosing a server.");
-                return;
-            }
-        
-            int chosenPort = Integer.parseInt(in.readLine());
+            String request = in.readLine();
+            System.out.println("Received request: " + request);
 
-            if (chosenPort != 6000 && chosenPort != 6001) {
-                out.println("Coordinator: Invalid choice. Defaulting to 6000.");
-                chosenPort = 6000;
-            }
+            if ("REQUEST".equals(request)) {
+                // Handle operation request
+                synchronized (requestQueue) {
+                    if (!resourceLocked) {
+                        resourceLocked = true;
+                        out.println("Granted");
+                        System.out.println("Operation access granted");
 
-            out.println("Coordinator: Proceed to connect to Storage Server on port " + chosenPort);
-            String message = in.readLine();
-            
-            if (message == null) {
-                System.out.println("Client disconnected before sending RELEASE.");
-                return;
-            }
+                        // Add 3-second delay to make mutex visible
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-            if ("RELEASE".equalsIgnoreCase(message)) {
-                resourceLocked = false;
-                out.println("Coordinator: Resource released. Next store will be granted access.");
-                processQueue();
+                        // Wait for RELEASE
+                        String releaseMsg = in.readLine();
+                        if ("RELEASE".equalsIgnoreCase(releaseMsg)) {
+                            resourceLocked = false;
+                            out.println("Released");
+                            System.out.println("Operation completed, mutex released");
+                            processQueue();
+                        }
+                    } else {
+                        out.println("Denied");
+                        System.out.println("Operation access denied - resource locked");
+                    }
+                }
+            } else if ("CONNECT".equals(request)) {
+                // Handle initial connection request - no mutex needed
+                out.println("Granted");
+                System.out.println("Initial connection granted");
+
+                // Read the chosen port using DataInputStream
+                int chosenPort = dataIn.readInt();
+                System.out.println("Received port request: " + chosenPort);
+
+                if (chosenPort != 6000 && chosenPort != 6001) {
+                    out.println("Invalid choice. Defaulting to 6000.");
+                    chosenPort = 6000;
+                } else {
+                    out.println("Connected to Storage Server on port " + chosenPort);
+                }
+
+                // Read the RELEASE message for connection
+                String message = in.readLine();
+                if ("RELEASE".equalsIgnoreCase(message)) {
+                    out.println("Connection completed");
+                    System.out.println("Initial connection completed for port " + chosenPort);
+                }
             }
 
         } catch (IOException e) {
+            System.out.println("Error handling client: " + e.getMessage());
             e.printStackTrace();
+            synchronized (requestQueue) {
+                resourceLocked = false;
+                processQueue();
+            }
+        } finally {
+            try {
+                store.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

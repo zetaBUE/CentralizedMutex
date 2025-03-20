@@ -38,9 +38,10 @@ public class StorageServer {
 
     private void handleRequest(Socket store) {
         try (BufferedReader input = new BufferedReader(new InputStreamReader(store.getInputStream()));
-             PrintWriter output = new PrintWriter(store.getOutputStream(), true)) {
+                PrintWriter output = new PrintWriter(store.getOutputStream(), true)) {
 
-            output.println("Connected to Storage Server for " + productCategory + ". Choose: ADD <item> <qty>, DELETE <item>, VIEW");
+            output.println("Connected to Storage Server for " + productCategory
+                    + ". Choose: ADD <item> <qty>, DELETE <item>, VIEW");
 
             String request = input.readLine();
             String[] parts = request.split(" ");
@@ -55,7 +56,11 @@ public class StorageServer {
                 inventory.removeIf(p -> p.getName().equalsIgnoreCase(name));
                 output.println("Deleted " + name + " from inventory.");
             } else if (request.equalsIgnoreCase("VIEW")) {
-                output.println("Inventory: " + this.inventory.toString());
+                if (inventory.isEmpty()) {
+                    output.println("Inventory is empty.");
+                } else {
+                    output.println("Inventory: " + this.inventory.toString());
+                }
             } else {
                 output.println("Invalid request.");
             }
@@ -69,4 +74,3 @@ public class StorageServer {
         new Thread(() -> new StorageServer(6001, "Pants").startServer()).start();
     }
 }
-
